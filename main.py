@@ -1,4 +1,8 @@
 import argparse
+import os
+from pathlib import Path
+
+
 from webscraper import Webscraper
 
 
@@ -11,31 +15,24 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "-f",
-    "--folder",
-    help="download folder"
-)
-
-
-parser.add_argument(
     "-i",
     "--image",
     action="store_true",
-    help="download all images of the webpage"
+    help="download all images from webpage"
 )
 
 parser.add_argument(
     "-t",
     "--text",
     action="store_true",
-    help="dowload all text of the webpage"
+    help="dowload all text from webpage"
 )
 
 parser.add_argument(
     "-l",
     "--links",
     action="store_true",
-    help="download all links on the webpage"
+    help="download all links from webpage"
 )
 
 args = parser.parse_args()
@@ -44,7 +41,7 @@ image = args.image
 text = args.text
 url = args.url
 links = args.links
-folder = args.folder if args.folder else "data/data.txt"
+folder = Path("data")
 
 
 def main():
@@ -52,17 +49,25 @@ def main():
     print(f"text: {text}")
     print(f"target url: {url}")
     print(f"folder {folder}")
+
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+
     scraper = Webscraper(url)
 
     if image:
-        img_folder = "data/"
+        img_folder = Path("images")
+        if not os.path.exists(img_folder):
+            os.makedirs(img_folder)
         scraper.scrape_images(img_folder)
 
     if text:
         scraper.scrape_text(folder)
 
     if links:
-        url_folder = "url"
+        url_folder = Path("url")
+        if not os.path.exists(url_folder):
+            os.makedirs(url_folder)
         scraper.scrape_links(url_folder)
 
 

@@ -1,0 +1,6 @@
+## Webscraper
+simple webscraper for text, images and urls.
+
+
+Does run on commandline, for example run `python3 main.py --url="<target url>" --image` to scrape all images of a website.<br>
+Other usecases are `--text` to scrape all text  or `--links` to scrape all urls of a webite.
